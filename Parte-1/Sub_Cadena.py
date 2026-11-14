@@ -1,19 +1,21 @@
-def racha_mas_larga(gastos, limite):
+def subcadena_mas_larga(texto):
+    cuerpo = set()    # letras que tiene el gusano (sin repetidos)
     cola = 0          # donde empieza el gusano
-    suma = 0          # lo que tiene el gusano en el cuerpo
     record = 0
 
-    for cabeza in range(len(gastos)):       # la cabeza SIEMPRE avanza
-        suma += gastos[cabeza]              # se come el dia nuevo
+    for cabeza in range(len(texto)):            # la cabeza SIEMPRE avanza
+        letra = texto[cabeza]
 
-        while suma > limite:                # mientras el cuerpo no sea valido...
-            suma -= gastos[cola]            # ...la cola suelta el dia de atras
-            cola += 1                       # ...y avanza
+        while letra in cuerpo:                  # mientras la letra nueva ya este en el cuerpo...
+            cuerpo.remove(texto[cola])          # ...la cola suelta la letra de atras
+            cola += 1                           # ...y avanza
 
-        largo = cabeza - cola + 1           # tamano del gusano
-        record = max(record, largo)
+        cuerpo.add(letra)                       # ahora si, se come la letra nueva
+        record = max(record, cabeza - cola + 1) # tamano del gusano
 
     return record
 
+
 casos = ["abcabcbb", "pwwkew", ""]
-print(racha_mas_larga(casos))
+for caso in casos:
+    print(f'"{caso}" ->', subcadena_mas_larga(caso))   # 3, 3, 0
